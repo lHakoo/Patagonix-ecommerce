@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import type { Product } from "../types/product";
 
 interface ProductCardProps {
@@ -6,7 +7,10 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   return (
-    <div className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow bg-white">
+    <Link
+      to={`/product/${product.id}`}
+      className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow bg-white block"
+    >
       <img
         src={product.imageUrl}
         alt={product.name}
@@ -23,6 +27,6 @@ export default function ProductCard({ product }: ProductCardProps) {
           </span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
