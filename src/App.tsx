@@ -4,6 +4,7 @@ import Register from "./pages/Register";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useAuth } from "./contexts/AuthContext";
+import Catalog from "./pages/Catalog";
 
 function Home() {
   const { currentUser, logout } = useAuth();
@@ -31,6 +32,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/catalog" element={<Catalog />} />
         <Route
           path="/admin"
           element={
