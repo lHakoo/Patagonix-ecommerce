@@ -9,6 +9,9 @@ import ProductDetail from "./pages/ProductDetail";
 import Cart from "./pages/Cart";
 import { Link } from "react-router-dom";
 import { useCart } from "./contexts/CartContext";
+import Checkout from "./pages/Checkout";
+import OrderDetail from "./pages/OrderDetail";
+import Orders from "./pages/Orders";
 
 function Home() {
   const { currentUser, logout } = useAuth();
@@ -43,6 +46,9 @@ function App() {
         <Route path="/catalog" element={<Catalog />} />
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/orders" element={<Orders />} />
+<Route path="/orders/:id" element={<OrderDetail />} />
         <Route
           path="/admin"
           element={
