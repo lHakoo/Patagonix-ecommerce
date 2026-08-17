@@ -6,9 +6,13 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { useAuth } from "./contexts/AuthContext";
 import Catalog from "./pages/Catalog";
 import ProductDetail from "./pages/ProductDetail";
+import Cart from "./pages/Cart";
+import { Link } from "react-router-dom";
+import { useCart } from "./contexts/CartContext";
 
 function Home() {
   const { currentUser, logout } = useAuth();
+  const { totalItems } = useCart();
   return (
     <div className="min-h-screen flex flex-col items-center justify-center gap-4">
       <h1 className="text-2xl font-bold">Patagonix Ecommerce</h1>
@@ -22,10 +26,13 @@ function Home() {
       ) : (
         <p>No hay sesión iniciada</p>
       )}
+      <div className="flex gap-4">
+        <Link to="/catalog" className="text-blue-600">Ver catálogo</Link>
+        <Link to="/cart" className="text-blue-600">Ver carrito ({totalItems})</Link>
+      </div>
     </div>
   );
 }
-
 function App() {
   return (
     <BrowserRouter>
@@ -35,6 +42,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/catalog" element={<Catalog />} />
         <Route path="/product/:id" element={<ProductDetail />} />
+        <Route path="/cart" element={<Cart />} />
         <Route
           path="/admin"
           element={

@@ -2,12 +2,16 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getProductById } from "../services/products";
 import type { Product } from "../types/product";
+import { useCart } from "../contexts/CartContext";
 
 export default function ProductDetail() {
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [added, setAdded] = useState(false);
+
+  const { addItem } = useCart();
 
   useEffect(() => {
     async function loadProduct() {
@@ -29,6 +33,13 @@ export default function ProductDetail() {
     }
     loadProduct();
   }, [id]);
+
+  function handleAddToCart() {
+    if (!product) return;
+    addItem(product, 1);
+    setAdded(true);
+    setTimeout(() => setAdded(false), 1500);
+  }
 
   if (loading) {
     return (
@@ -77,11 +88,15 @@ export default function ProductDetail() {
           </p>
 
           <button
+            onClick={handleAddToCart}
             disabled={product.stock === 0}
             className="mt-6 bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Agregar al carrito
+            {added ? "¡Agregado! ✓" : "Agregar al carrito"}
           </button>
+          <Link to="/cart" className="block mt-3 text-blue-600 text-sm">
+            Ir al carrito &rarr;
+          </Link>
         </div>
       </div>
     </div>
