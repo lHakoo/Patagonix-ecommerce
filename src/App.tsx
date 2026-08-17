@@ -12,6 +12,9 @@ import { useCart } from "./contexts/CartContext";
 import Checkout from "./pages/Checkout";
 import OrderDetail from "./pages/OrderDetail";
 import Orders from "./pages/Orders";
+import AdminLayout from "./components/AdminLayout";
+
+
 
 function Home() {
   const { currentUser, logout } = useAuth();
@@ -49,14 +52,16 @@ function App() {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/orders" element={<Orders />} />
 <Route path="/orders/:id" element={<OrderDetail />} />
-        <Route
-          path="/admin"
-          element={
-            <ProtectedRoute requiredRole="admin">
-              <AdminDashboard />
-            </ProtectedRoute>
-          }
-        />
+       <Route
+  path="/admin"
+  element={
+    <ProtectedRoute requiredRole="admin">
+      <AdminLayout />
+    </ProtectedRoute>
+  }
+>
+  <Route index element={<AdminDashboard />} />
+</Route>
       </Routes>
     </BrowserRouter>
   );

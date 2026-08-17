@@ -1,8 +1,10 @@
 export default function AdminDashboard() {
   return (
-    <div className="min-h-screen p-6">
-      <h1 className="text-2xl font-bold">Panel de Administración</h1>
-      <p className="text-gray-600 mt-2">Si ves esto, sos admin. 🎉</p>
+    <div>
+      <h1 className="text-2xl font-bold">Dashboard</h1>
+      <p className="text-gray-600 mt-2">
+        Bienvenido al panel de administración. Usá el menú de la izquierda para gestionar productos y órdenes.
+      </p>
     </div>
   );
 }
