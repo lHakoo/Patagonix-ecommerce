@@ -13,6 +13,7 @@ import OrderDetail from "./pages/OrderDetail";
 import Orders from "./pages/Orders";
 import AdminLayout from "./components/AdminLayout";
 import AdminProducts from "./pages/admin/AdminProducts";
+import ProductForm from "./pages/admin/ProductForm";
 
 function Home() {
   const { currentUser, logout } = useAuth();
@@ -61,6 +62,8 @@ function App() {
         >
           <Route index element={<AdminDashboard />} />
           <Route path="products" element={<AdminProducts />} />
+          <Route path="products/new" element={<ProductForm />} />
+          <Route path="products/:id/edit" element={<ProductForm />} />
         </Route>
       </Routes>
     </BrowserRouter>
