@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -7,14 +7,12 @@ import { useAuth } from "./contexts/AuthContext";
 import Catalog from "./pages/Catalog";
 import ProductDetail from "./pages/ProductDetail";
 import Cart from "./pages/Cart";
-import { Link } from "react-router-dom";
 import { useCart } from "./contexts/CartContext";
 import Checkout from "./pages/Checkout";
 import OrderDetail from "./pages/OrderDetail";
 import Orders from "./pages/Orders";
 import AdminLayout from "./components/AdminLayout";
-
-
+import AdminProducts from "./pages/admin/AdminProducts";
 
 function Home() {
   const { currentUser, logout } = useAuth();
@@ -39,6 +37,7 @@ function Home() {
     </div>
   );
 }
+
 function App() {
   return (
     <BrowserRouter>
@@ -51,17 +50,18 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/orders" element={<Orders />} />
-<Route path="/orders/:id" element={<OrderDetail />} />
-       <Route
-  path="/admin"
-  element={
-    <ProtectedRoute requiredRole="admin">
-      <AdminLayout />
-    </ProtectedRoute>
-  }
->
-  <Route index element={<AdminDashboard />} />
-</Route>
+        <Route path="/orders/:id" element={<OrderDetail />} />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute requiredRole="admin">
+              <AdminLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<AdminDashboard />} />
+          <Route path="products" element={<AdminProducts />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

@@ -3,6 +3,7 @@ import {
   getDocs,
   doc,
   getDoc,
+  deleteDoc,
 } from "firebase/firestore";
 import { db } from "./firebase";
 import type { Product } from "../types/product";
@@ -22,4 +23,8 @@ export async function getProductById(id: string): Promise<Product | null> {
   const docSnap = await getDoc(docRef);
   if (!docSnap.exists()) return null;
   return { id: docSnap.id, ...(docSnap.data() as Omit<Product, "id">) };
+}
+
+export async function deleteProduct(id: string): Promise<void> {
+  await deleteDoc(doc(db, PRODUCTS_COLLECTION, id));
 }
