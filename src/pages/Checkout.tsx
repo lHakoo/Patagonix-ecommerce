@@ -13,11 +13,7 @@ export default function Checkout() {
   const [error, setError] = useState("");
 
   async function handleConfirm() {
-    if (!currentUser) {
-      setError("Necesitás iniciar sesión para completar la compra.");
-      return;
-    }
-    if (items.length === 0) return;
+    if (!currentUser || items.length === 0) return;
 
     setError("");
     setLoading(true);
@@ -35,43 +31,78 @@ export default function Checkout() {
 
   if (items.length === 0) {
     return (
-      <div className="max-w-2xl mx-auto px-4 py-16 text-center">
-        <p className="text-gray-500 mb-4">No tenés productos para pagar.</p>
-        <Link to="/catalog" className="text-blue-600">Ir al catálogo</Link>
+      <div className="max-w-2xl mx-auto px-4 py-24 text-center">
+        <p className="font-display text-2xl text-pine-950 mb-2">No tenés productos para pagar</p>
+        <Link to="/catalog" className="text-pine-800 font-medium hover:text-amber-500 transition-colors">
+          Ir al catálogo
+        </Link>
+      </div>
+    );
+  }
+
+  if (!currentUser) {
+    return (
+      <div className="max-w-md mx-auto px-4 py-24 text-center">
+        <div className="bg-white border border-pine-800/10 rounded-2xl p-8">
+          <p className="font-display text-2xl text-pine-950 mb-2">Iniciá sesión para continuar</p>
+          <p className="text-pine-950/60 mb-6 text-sm">
+            Tu carrito te espera — solo necesitás una cuenta para completar la compra.
+          </p>
+          <Link
+            to="/login"
+            className="inline-block w-full px-6 py-3 rounded-full bg-pine-950 text-white font-medium hover:bg-pine-800 transition-colors"
+          >
+            Ingresar
+          </Link>
+          <p className="text-sm text-pine-950/50 mt-4">
+            ¿No tenés cuenta?{" "}
+            <Link to="/register" className="text-pine-800 font-medium hover:text-amber-500">
+              Registrate
+            </Link>
+          </p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Checkout</h1>
+    <div className="max-w-2xl mx-auto px-4 py-10">
+      <p className="text-xs font-semibold tracking-widest text-amber-500 uppercase mb-2">
+        Último paso
+      </p>
+      <h1 className="font-display text-4xl font-semibold text-pine-950 mb-8">Checkout</h1>
 
-      <div className="border rounded-lg p-4 mb-4">
-        <h2 className="font-semibold mb-3">Resumen del pedido</h2>
-        {items.map((item) => (
-          <div key={item.product.id} className="flex justify-between text-sm py-1">
-            <span>{item.product.name} x{item.quantity}</span>
-            <span>${(item.product.price * item.quantity).toLocaleString("es-AR")}</span>
-          </div>
-        ))}
-        <div className="flex justify-between font-bold border-t mt-3 pt-3">
-          <span>Total</span>
-          <span>${totalPrice.toLocaleString("es-AR")}</span>
+      <div className="bg-white border border-pine-800/10 rounded-2xl p-6 mb-4">
+        <h2 className="font-semibold text-pine-950 mb-4">Resumen del pedido</h2>
+        <div className="flex flex-col gap-2">
+          {items.map((item) => (
+            <div key={item.product.id} className="flex justify-between text-sm text-pine-950/80">
+              <span>{item.product.name} <span className="text-pine-950/40">x{item.quantity}</span></span>
+              <span className="font-medium">${(item.product.price * item.quantity).toLocaleString("es-AR")}</span>
+            </div>
+          ))}
+        </div>
+        <div className="flex justify-between items-center border-t border-pine-800/10 mt-4 pt-4">
+          <span className="font-display text-lg text-pine-950">Total</span>
+          <span className="font-display text-2xl font-semibold text-pine-950">
+            ${totalPrice.toLocaleString("es-AR")}
+          </span>
         </div>
       </div>
 
-      <div className="border rounded-lg p-4 mb-4 bg-gray-50">
-        <p className="text-sm text-gray-600">
-          💳 Este es un checkout simulado — no se procesa ningún pago real.
+      <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 mb-6 flex items-start gap-3">
+        <span className="text-lg">💳</span>
+        <p className="text-sm text-pine-950/80">
+          Este es un checkout simulado — no se procesa ningún pago real.
         </p>
       </div>
 
-      {error && <p className="text-red-500 text-sm mb-3">{error}</p>}
+      {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
       <button
         onClick={handleConfirm}
         disabled={loading}
-        className="w-full bg-blue-600 text-white py-3 rounded hover:bg-blue-700 disabled:opacity-50"
+        className="w-full bg-pine-950 text-white py-4 rounded-full font-medium hover:bg-pine-800 disabled:opacity-50 transition-colors"
       >
         {loading ? "Procesando..." : "Confirmar compra"}
       </button>

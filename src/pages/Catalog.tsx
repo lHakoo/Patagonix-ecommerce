@@ -47,44 +47,63 @@ export default function Catalog() {
   }, [products, selectedCategory, debouncedSearch]);
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Catálogo</h1>
+    <div className="max-w-6xl mx-auto px-4 py-10">
+      <div className="mb-8">
+        <p className="text-xs font-semibold tracking-widest text-amber-500 uppercase mb-2">
+          Equipamiento para el camino
+        </p>
+        <h1 className="font-display text-4xl sm:text-5xl font-semibold text-pine-950">
+          Catálogo
+        </h1>
+      </div>
 
-      <div className="flex flex-col sm:flex-row gap-3 mb-6">
+      <div className="flex flex-col sm:flex-row gap-3 mb-8">
         <input
           type="text"
           placeholder="Buscar productos..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="border rounded px-3 py-2 flex-1"
+          className="flex-1 border border-pine-800/15 bg-white rounded-full px-5 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pine-600/40 transition-shadow"
         />
-        <select
-          value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
-          className="border rounded px-3 py-2"
-        >
+        <div className="flex gap-2 overflow-x-auto pb-1">
           {categories.map((cat) => (
-            <option key={cat} value={cat}>
+            <button
+              key={cat}
+              onClick={() => setSelectedCategory(cat)}
+              className={`whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium border transition-colors ${
+                selectedCategory === cat
+                  ? "bg-pine-800 text-white border-pine-800"
+                  : "bg-white text-pine-950 border-pine-800/15 hover:border-pine-800/40"
+              }`}
+            >
               {cat}
-            </option>
+            </button>
           ))}
-        </select>
+        </div>
       </div>
 
       {error && <p className="text-red-500">{error}</p>}
 
       {loading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {Array.from({ length: 6 }).map((_, i) => (
             <ProductCardSkeleton key={i} />
           ))}
         </div>
       ) : filteredProducts.length === 0 ? (
-        <p className="text-gray-500 text-center py-12">No hay productos que coincidan.</p>
+        <div className="text-center py-24">
+          <p className="text-pine-950/60 font-display text-xl">No hay productos que coincidan.</p>
+        </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredProducts.map((product, i) => (
+            <div
+              key={product.id}
+              className="animate-fade-in-up"
+              style={{ animationDelay: `${Math.min(i, 8) * 60}ms` }}
+            >
+              <ProductCard product={product} />
+            </div>
           ))}
         </div>
       )}

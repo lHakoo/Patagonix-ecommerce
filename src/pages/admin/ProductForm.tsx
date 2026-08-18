@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { uploadImageToS3 } from "../../services/upload";
 import { createProduct, updateProduct, getProductById } from "../../services/products";
+import { uploadImageToS3 } from "../../services/upload";
 
 export default function ProductForm() {
   const { id } = useParams<{ id: string }>();
@@ -19,7 +19,7 @@ export default function ProductForm() {
   const [loadingData, setLoadingData] = useState(isEditMode);
   const [saving, setSaving] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
-const [uploading, setUploading] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -122,7 +122,50 @@ const [uploading, setUploading] = useState(false);
             value={name}
             onChange={(e) => setName(e.target.value)}
             className="w-full border rounded px-3 py-2"
-            required
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium mb-1">Descripción</label>
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="w-full border rounded px-3 py-2"
+            rows={3}
+          />
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium mb-1">Precio</label>
+            <input
+              type="number"
+              min="0"
+              step="0.01"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              className="w-full border rounded px-3 py-2"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Stock</label>
+            <input
+              type="number"
+              min="0"
+              value={stock}
+              onChange={(e) => setStock(e.target.value)}
+              className="w-full border rounded px-3 py-2"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium mb-1">Categoría</label>
+          <input
+            type="text"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            className="w-full border rounded px-3 py-2"
           />
         </div>
 
@@ -147,55 +190,6 @@ const [uploading, setUploading] = useState(false);
           )}
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium mb-1">Precio</label>
-            <input
-              type="number"
-              min="0"
-              step="0.01"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              className="w-full border rounded px-3 py-2"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1">Stock</label>
-            <input
-              type="number"
-              min="0"
-              value={stock}
-              onChange={(e) => setStock(e.target.value)}
-              className="w-full border rounded px-3 py-2"
-              required
-            />
-          </div>
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium mb-1">Categoría</label>
-          <input
-            type="text"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            className="w-full border rounded px-3 py-2"
-            required
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium mb-1">URL de imagen</label>
-          <input
-            type="text"
-            value={imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)}
-            className="w-full border rounded px-3 py-2"
-            placeholder="https://..."
-            required
-          />
-        </div>
-
         {imageUrl && (
           <img
             src={imageUrl}
@@ -210,7 +204,7 @@ const [uploading, setUploading] = useState(false);
             disabled={saving}
             className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
           >
-                       {uploading ? "Subiendo imagen..." : saving ? "Guardando..." : isEditMode ? "Guardar cambios" : "Crear producto"}
+            {uploading ? "Subiendo imagen..." : saving ? "Guardando..." : isEditMode ? "Guardar cambios" : "Crear producto"}
           </button>
           <button
             type="button"
