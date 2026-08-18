@@ -7,10 +7,11 @@ import {
   orderBy,
   doc,
   getDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { db } from "./firebase";
 import type { CartItem } from "../types/cart";
-import type { Order } from "../types/order";
+import type { Order, OrderStatus } from "../types/order";
 
 const ORDERS_COLLECTION = "orders";
 
@@ -43,4 +44,17 @@ export async function getOrderById(orderId: string): Promise<Order | null> {
   const docSnap = await getDoc(docRef);
   if (!docSnap.exists()) return null;
   return { id: docSnap.id, ...(docSnap.data() as Omit<Order, "id">) };
+}
+
+export async function getAllOrders(): Promise<Order[]> {
+  const q = query(collection(db, ORDERS_COLLECTION), orderBy("createdAt", "desc"));
+  const snapshot = await getDocs(q);
+  return snapshot.docs.map((docSnap) => ({
+    id: docSnap.id,
+    ...(docSnap.data() as Omit<Order, "id">),
+  }));
+}
+
+export async function updateOrderStatus(orderId: string, status: OrderStatus): Promise<void> {
+  await updateDoc(doc(db, ORDERS_COLLECTION, orderId), { status });
 }

@@ -14,6 +14,7 @@ import Orders from "./pages/Orders";
 import AdminLayout from "./components/AdminLayout";
 import AdminProducts from "./pages/admin/AdminProducts";
 import ProductForm from "./pages/admin/ProductForm";
+import AdminOrders from "./pages/admin/AdminOrders";
 
 function Home() {
   const { currentUser, logout } = useAuth();
@@ -52,19 +53,21 @@ function App() {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/orders" element={<Orders />} />
         <Route path="/orders/:id" element={<OrderDetail />} />
+        <Route path="orders" element={<AdminOrders />} />
         <Route
-          path="/admin"
-          element={
-            <ProtectedRoute requiredRole="admin">
-              <AdminLayout />
-            </ProtectedRoute>
-          }
-        >
-          <Route index element={<AdminDashboard />} />
-          <Route path="products" element={<AdminProducts />} />
-          <Route path="products/new" element={<ProductForm />} />
-          <Route path="products/:id/edit" element={<ProductForm />} />
-        </Route>
+  path="/admin"
+  element={
+    <ProtectedRoute requiredRole="admin">
+      <AdminLayout />
+    </ProtectedRoute>
+  }
+>
+  <Route index element={<AdminDashboard />} />
+  <Route path="products" element={<AdminProducts />} />
+  <Route path="products/new" element={<ProductForm />} />
+  <Route path="products/:id/edit" element={<ProductForm />} />
+  <Route path="orders" element={<AdminOrders />} />
+</Route>
       </Routes>
     </BrowserRouter>
   );
